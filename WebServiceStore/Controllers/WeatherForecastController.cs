@@ -19,9 +19,9 @@ namespace WebServiceStore.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly StoreWebSiteContext _db;
+        private readonly DBStoreContext _db;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, StoreWebSiteContext db)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, DBStoreContext db)
         {
             _logger = logger;
             _db = db;
@@ -32,11 +32,11 @@ namespace WebServiceStore.Controllers
         {            
             using (_db)
             {
-                var result1 = _db.Pedidos.ToList();
+                //var result1 = _db.Pedidos.ToList();
                 //var result2 = _db.OrderDetails.ToList();
                 //var result3 = _db.Client.ToList();
                 //var result4 = _db.Products.ToList();
-                return Ok(new { result1/*,result2,result3,result4*/});
+                return Ok(new { /*result1,result2,result3,result4*/});
             }            
         }
     }

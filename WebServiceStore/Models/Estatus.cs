@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace WebServiceStore.Models
 {
-    public class MetodoPago
+    public class Estatus
     {
         [Key]
         [Required]
-        public int MetodoPagoId { get; set; }
+        public int StatusId { get; set; }
         [Required]
         [StringLength(100)]
-        public string Descripcion { get; set; }
-        
+        public string Description { get; set; }
+
+        public List<Categoria> Categorias { get; set; }
     }
 }

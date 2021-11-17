@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebServiceStore.Models
 {
-    public partial class ProductCategorie
+    public class ProductoCategoria
     {
+        [Key]
+        [Required]
         public int ProductCategorieId { get; set; }
+        [Required]
         public int ProductId { get; set; }
+        [Required]
         public int CategorieId { get; set; }
-
-        public virtual Categories Categorie { get; set; }
-        public virtual Products Product { get; set; }
     }
 }

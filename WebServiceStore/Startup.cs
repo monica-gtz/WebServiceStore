@@ -29,7 +29,7 @@ namespace WebServiceStore
         {
             var c = Configuration.
                     GetSection("ConnectionStrings:DefaultConnection");
-            services.AddDbContext<StoreWebSiteContext>(options =>
+            services.AddDbContext<DBStoreContext>(options =>
                 options.UseSqlServer(c.Value));
 
             services.AddControllers();

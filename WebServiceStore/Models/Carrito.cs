@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace WebServiceStore.Models
 {
-    public class Pedidos
+    public class Carrito
     {
         [Key]
         [Required]
-        public int PedidoId { get; set; }
+        public int CarritoId { get; set; }
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal Total { get; set; }
+        public int Cantidad { get; set; }
         [Required]
-        public int ClientId { get; set; }
+        public int ProductoId { get; set; }
         [Required]
-        public int DomicilioId { get; set; }
-        [Required]
-        public int MetodoPagoId { get; set; }
+        public int ClienteId { get; set; }
     }
 }
