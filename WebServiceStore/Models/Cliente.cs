@@ -22,5 +22,7 @@ namespace WebServiceStore.Models
         public string Mail { get; set; }
         
         public List<Domicilio> Domicilios { get; set; }
+        public List<Carrito> Carritos { get; set; }
+        public List<Pedidos> Pedidos { get; set; }
     }
 }

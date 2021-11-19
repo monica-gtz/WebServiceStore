@@ -16,10 +16,11 @@ namespace WebServiceStore.Models
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Total { get; set; }
         [Required]
-        public int ClientId { get; set; }
+        [ForeignKey("ClienteId")]
+        public Cliente Cliente { get; set; }
         [Required]
-        public int DomicilioId { get; set; }
-        [Required]
-        public int MetodoPagoId { get; set; }
+        [ForeignKey("DomicilioId")]
+        public Domicilio Domicilio { get; set; }
+        
     }
 }

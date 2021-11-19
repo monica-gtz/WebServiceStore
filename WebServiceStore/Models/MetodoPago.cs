@@ -14,6 +14,8 @@ namespace WebServiceStore.Models
         [Required]
         [StringLength(100)]
         public string Descripcion { get; set; }
+
+        public List<Pedidos> Pedidos { get; set; }
         
     }
 }

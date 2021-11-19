@@ -22,5 +22,6 @@ namespace WebServiceStore.Models
         public int EstatusId { get; set; }
         [ForeignKey("EstatusId")]
         public Estatus Estatus { get; set; }
+        public List<ProductoCategoria> ProductoCategorias { get; set; }
     }
 }

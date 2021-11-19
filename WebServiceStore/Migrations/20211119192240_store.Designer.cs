@@ -10,8 +10,8 @@ using WebServiceStore.Models;
 namespace WebServiceStore.Migrations
 {
     [DbContext(typeof(DBStoreContext))]
-    [Migration("20211119053332_Store")]
-    partial class Store
+    [Migration("20211119192240_store")]
+    partial class store
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,13 +31,16 @@ namespace WebServiceStore.Migrations
                     b.Property<decimal>("Cantidad")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("ClienteId")
+                    b.Property<int?>("ClienteId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");
 
                     b.HasKey("CarritoId");
+
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("ProductoId");
 
@@ -139,10 +142,8 @@ namespace WebServiceStore.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ClientesClienteId")
+                    b.Property<int?>("ClienteId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("CodigoPostal")
@@ -165,7 +166,7 @@ namespace WebServiceStore.Migrations
 
                     b.HasKey("DomicilioId");
 
-                    b.HasIndex("ClientesClienteId");
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Domicilio");
                 });
@@ -211,19 +212,27 @@ namespace WebServiceStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClienteId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("DomicilioId")
+                    b.Property<int?>("DomicilioId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("MetodoPagoId")
+                    b.Property<int?>("MetodoPagoId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("PedidoId");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("DomicilioId");
+
+                    b.HasIndex("MetodoPagoId");
 
                     b.ToTable("Pedidos");
                 });
@@ -265,10 +274,15 @@ namespace WebServiceStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CategoriaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");
 
                     b.HasKey("ProductCategoriaId");
+
+                    b.HasIndex("CategoriaId");
 
                     b.HasIndex("ProductoId");
 
@@ -277,6 +291,12 @@ namespace WebServiceStore.Migrations
 
             modelBuilder.Entity("WebServiceStore.Models.Carrito", b =>
                 {
+                    b.HasOne("WebServiceStore.Models.Cliente", "Cliente")
+                        .WithMany("Carritos")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebServiceStore.Models.Producto", "Producto")
                         .WithMany("Carrito")
                         .HasForeignKey("ProductoId")
@@ -297,7 +317,28 @@ namespace WebServiceStore.Migrations
                 {
                     b.HasOne("WebServiceStore.Models.Cliente", "Clientes")
                         .WithMany("Domicilios")
-                        .HasForeignKey("ClientesClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.Pedidos", b =>
+                {
+                    b.HasOne("WebServiceStore.Models.Cliente", "Cliente")
+                        .WithMany("Pedidos")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebServiceStore.Models.Domicilio", "Domicilio")
+                        .WithMany()
+                        .HasForeignKey("DomicilioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebServiceStore.Models.MetodoPago", null)
+                        .WithMany("Pedidos")
+                        .HasForeignKey("MetodoPagoId");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.Producto", b =>
@@ -311,6 +352,10 @@ namespace WebServiceStore.Migrations
 
             modelBuilder.Entity("WebServiceStore.Models.ProductoCategoria", b =>
                 {
+                    b.HasOne("WebServiceStore.Models.Categoria", "Categoria")
+                        .WithMany("ProductoCategorias")
+                        .HasForeignKey("CategoriaId");
+
                     b.HasOne("WebServiceStore.Models.Producto", "Producto")
                         .WithMany("ProductoCategorias")
                         .HasForeignKey("ProductoId")

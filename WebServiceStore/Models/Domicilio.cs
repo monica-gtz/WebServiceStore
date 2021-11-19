@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace WebServiceStore.Models
         [StringLength(10)]
         public string NumExt { get; set; }
         [Required]
-        public int ClientId { get; set; }
+        [ForeignKey("ClienteId")]
         public Cliente Clientes { get; set; }
     }
 }
