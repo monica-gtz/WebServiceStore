@@ -29,5 +29,6 @@ namespace WebServiceStore.Models
 
         public List<ProductoCategoria> ProductoCategorias { get; set; }
         public List<Carrito> Carrito { get; set; }
+        public List<DetallePedido> DetallePedidos { get; set; }
     }
 }

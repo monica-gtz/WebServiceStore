@@ -25,6 +25,9 @@ namespace WebServiceStore.Models
         public string Ciudad { get; set; }
         [Required]
         [StringLength(50)]
+        public string Estado { get; set; }
+        [Required]
+        [StringLength(50)]
         public string Pais { get; set; }
         [Required]
         [StringLength(10)]
@@ -32,5 +35,7 @@ namespace WebServiceStore.Models
         [Required]
         [ForeignKey("ClienteId")]
         public Cliente Clientes { get; set; }
+
+        public List<Pedidos> Pedidos { get; set; }
     }
 }

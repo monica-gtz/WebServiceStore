@@ -24,6 +24,6 @@ namespace WebServiceStore.Models
         public DbSet<DetallePedido> DetallePedido { get; set; }
         public DbSet<ProductoCategoria> ProductoCategorias { get; set; }
 
-        
+       
     }
 }

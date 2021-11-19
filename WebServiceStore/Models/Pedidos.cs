@@ -19,8 +19,11 @@ namespace WebServiceStore.Models
         [ForeignKey("ClienteId")]
         public Cliente Cliente { get; set; }
         [Required]
-        [ForeignKey("DomicilioId")]
-        public Domicilio Domicilio { get; set; }
+        [ForeignKey("MetodoPagoId")]
+        public MetodoPago MetodoPago { get; set; }
         
+        public virtual Domicilio Domicilio { get; set; }
+
+        public List<DetallePedido> DetallePedidos { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using WebServiceStore.Models;
 namespace WebServiceStore.Migrations
 {
     [DbContext(typeof(DBStoreContext))]
-    [Migration("20211119192240_store")]
-    partial class store
+    [Migration("20211119211911_Store")]
+    partial class Store
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -117,10 +117,15 @@ namespace WebServiceStore.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductoId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("DetallePedidoId");
+
+                    b.HasIndex("PedidoId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("DetallePedido");
                 });
@@ -217,10 +222,10 @@ namespace WebServiceStore.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("DomicilioId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("MetodoPagoId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
@@ -313,6 +318,21 @@ namespace WebServiceStore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebServiceStore.Models.DetallePedido", b =>
+                {
+                    b.HasOne("WebServiceStore.Models.Pedidos", "Pedidos")
+                        .WithMany("DetallePedidos")
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebServiceStore.Models.Producto", "Producto")
+                        .WithMany("DetallePedidos")
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebServiceStore.Models.Domicilio", b =>
                 {
                     b.HasOne("WebServiceStore.Models.Cliente", "Clientes")
@@ -331,14 +351,14 @@ namespace WebServiceStore.Migrations
                         .IsRequired();
 
                     b.HasOne("WebServiceStore.Models.Domicilio", "Domicilio")
-                        .WithMany()
-                        .HasForeignKey("DomicilioId")
+                        .WithMany("Pedidos")
+                        .HasForeignKey("DomicilioId");
+
+                    b.HasOne("WebServiceStore.Models.MetodoPago", "MetodoPago")
+                        .WithMany("Pedidos")
+                        .HasForeignKey("MetodoPagoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("WebServiceStore.Models.MetodoPago", null)
-                        .WithMany("Pedidos")
-                        .HasForeignKey("MetodoPagoId");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.Producto", b =>
