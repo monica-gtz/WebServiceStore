@@ -32,7 +32,7 @@ namespace WebServiceStore
             services.AddDbContext<DBStoreContext>(options =>
                 options.UseSqlServer(c.Value));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

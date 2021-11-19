@@ -34,7 +34,7 @@ namespace WebServiceStore.Models
         public string NumExt { get; set; }
         [Required]
         [ForeignKey("ClienteId")]
-        public Cliente Clientes { get; set; }
+        public virtual Cliente Clientes { get; set; }
 
         public List<Pedidos> Pedidos { get; set; }
     }
