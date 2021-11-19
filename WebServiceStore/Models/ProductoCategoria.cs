@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +11,11 @@ namespace WebServiceStore.Models
     {
         [Key]
         [Required]
-        public int ProductCategorieId { get; set; }
+        public int ProductCategoriaId { get; set; }
         [Required]
-        public int ProductId { get; set; }
-        [Required]
-        public int CategorieId { get; set; }
+        public int ProductoId { get; set; }
+        [ForeignKey("ProductoId")]
+        public Producto Producto { get; set; }
+             
     }
 }

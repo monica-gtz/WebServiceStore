@@ -20,7 +20,7 @@ namespace WebServiceStore.Models
         [Required]
         [StringLength(50)]
         public string Mail { get; set; }
-        [Required]
-        public int DomicilioId { get; set; }
+        
+        public List<Domicilio> Domicilios { get; set; }
     }
 }

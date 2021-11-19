@@ -30,5 +30,6 @@ namespace WebServiceStore.Models
         public string NumExt { get; set; }
         [Required]
         public int ClientId { get; set; }
+        public Cliente Clientes { get; set; }
     }
 }

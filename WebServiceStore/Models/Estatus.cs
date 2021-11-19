@@ -8,13 +8,15 @@ namespace WebServiceStore.Models
 {
     public class Estatus
     {
+
         [Key]
         [Required]
-        public int StatusId { get; set; }
+        public int EstatusId { get; set; }
         [Required]
         [StringLength(100)]
         public string Description { get; set; }
 
         public List<Categoria> Categorias { get; set; }
+        public List<Producto> Producto { get; set; }
     }
 }

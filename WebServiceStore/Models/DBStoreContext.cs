@@ -23,5 +23,14 @@ namespace WebServiceStore.Models
         public DbSet<Pedidos> Pedidos { get; set; }
         public DbSet<DetallePedido> DetallePedido { get; set; }
         public DbSet<ProductoCategoria> ProductoCategorias { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Domicilio>()
+                .HasOne(p => p.Clientes)
+                .WithMany(x => x.Domicilios);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

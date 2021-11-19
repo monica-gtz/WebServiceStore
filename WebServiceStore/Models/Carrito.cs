@@ -17,6 +17,8 @@ namespace WebServiceStore.Models
         public int Cantidad { get; set; }
         [Required]
         public int ProductoId { get; set; }
+        [ForeignKey("ProductoId")]
+        public Producto Producto { get; set; }
         [Required]
         public int ClienteId { get; set; }
     }
