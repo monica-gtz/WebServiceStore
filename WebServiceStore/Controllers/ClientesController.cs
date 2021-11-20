@@ -36,19 +36,25 @@ namespace WebServiceStore.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            var c = _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id);
+            return "Value";
         }
 
         // POST api/<ClientesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Cliente newCliente)
         {
+            var c = _db.Cliente.AddAsync(newCliente);
+            _db.SaveChangesAsync();
         }
 
         // PUT api/<ClientesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            //var c = _db.Cliente
+
+            
         }
 
         // DELETE api/<ClientesController>/5
