@@ -53,7 +53,11 @@ namespace WebServiceStore.Controllers
                 using (_db)
                 {
                     var c = await _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id);
-                    return Ok(c);
+                    if(c != null)
+                    {
+                        return Ok(c);
+                    }
+                    return NotFound();
                 }
             }
             catch
@@ -99,7 +103,7 @@ namespace WebServiceStore.Controllers
                         c.Mail = actualizar.Mail;
 
                         await _db.SaveChangesAsync();
-                        return Ok(c);
+                        return Ok(actualizar);
                     }
                     return NotFound();
                 }
@@ -126,7 +130,7 @@ namespace WebServiceStore.Controllers
                         await _db.SaveChangesAsync();
                         return Ok(id);
                     }
-                    return BadRequest();
+                    return NotFound();
                 }
             }
             catch
