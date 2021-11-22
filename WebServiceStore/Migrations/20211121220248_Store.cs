@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace WebServiceStore.Migrations
 {
     public partial class Store : Migration
@@ -10,11 +12,11 @@ namespace WebServiceStore.Migrations
                 name: "Cliente",
                 columns: table => new
                 {
-                    ClienteId = table.Column<int>(nullable: false)
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(maxLength: 100, nullable: false),
-                    Telefono = table.Column<string>(maxLength: 50, nullable: false),
-                    Mail = table.Column<string>(maxLength: 50, nullable: false)
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Telefono = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Mail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,9 +27,9 @@ namespace WebServiceStore.Migrations
                 name: "Estatus",
                 columns: table => new
                 {
-                    EstatusId = table.Column<int>(nullable: false)
+                    EstatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(maxLength: 100, nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,9 +40,9 @@ namespace WebServiceStore.Migrations
                 name: "MetodoPago",
                 columns: table => new
                 {
-                    MetodoPagoId = table.Column<int>(nullable: false)
+                    MetodoPagoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(maxLength: 100, nullable: false)
+                    Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,15 +53,16 @@ namespace WebServiceStore.Migrations
                 name: "Domicilio",
                 columns: table => new
                 {
-                    DomicilioId = table.Column<int>(nullable: false)
+                    DomicilioId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CodigoPostal = table.Column<int>(nullable: false),
-                    Calle = table.Column<string>(maxLength: 50, nullable: false),
-                    Colonia = table.Column<string>(maxLength: 50, nullable: false),
-                    Ciudad = table.Column<string>(maxLength: 50, nullable: false),
-                    Pais = table.Column<string>(maxLength: 50, nullable: false),
-                    NumExt = table.Column<string>(maxLength: 10, nullable: false),
-                    ClienteId = table.Column<int>(nullable: false)
+                    CodigoPostal = table.Column<int>(type: "int", nullable: false),
+                    Calle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Colonia = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Ciudad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Estado = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Pais = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NumExt = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,11 +79,11 @@ namespace WebServiceStore.Migrations
                 name: "Categoria",
                 columns: table => new
                 {
-                    CategoriaId = table.Column<int>(nullable: false)
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(maxLength: 200, nullable: false),
-                    Imagen = table.Column<string>(maxLength: 50, nullable: false),
-                    EstatusId = table.Column<int>(nullable: false)
+                    Descripcion = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Imagen = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EstatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,12 +100,12 @@ namespace WebServiceStore.Migrations
                 name: "Producto",
                 columns: table => new
                 {
-                    ProductoId = table.Column<int>(nullable: false)
+                    ProductoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(maxLength: 50, nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Imagen = table.Column<string>(maxLength: 50, nullable: false),
-                    EstatusId = table.Column<int>(nullable: false)
+                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Imagen = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EstatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,12 +122,12 @@ namespace WebServiceStore.Migrations
                 name: "Pedidos",
                 columns: table => new
                 {
-                    PedidoId = table.Column<int>(nullable: false)
+                    PedidoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Total = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    ClienteId = table.Column<int>(nullable: false),
-                    MetodoPagoId = table.Column<int>(nullable: false),
-                    DomicilioId = table.Column<int>(nullable: true)
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    MetodoPagoId = table.Column<int>(type: "int", nullable: false),
+                    DomicilioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,8 +142,7 @@ namespace WebServiceStore.Migrations
                         name: "FK_Pedidos_Domicilio_DomicilioId",
                         column: x => x.DomicilioId,
                         principalTable: "Domicilio",
-                        principalColumn: "DomicilioId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "DomicilioId");
                     table.ForeignKey(
                         name: "FK_Pedidos_MetodoPago_MetodoPagoId",
                         column: x => x.MetodoPagoId,
@@ -153,11 +155,11 @@ namespace WebServiceStore.Migrations
                 name: "Carrito",
                 columns: table => new
                 {
-                    CarritoId = table.Column<int>(nullable: false)
+                    CarritoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Cantidad = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    ProductoId = table.Column<int>(nullable: false),
-                    ClienteId = table.Column<int>(nullable: false)
+                    Cantidad = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,10 +182,10 @@ namespace WebServiceStore.Migrations
                 name: "ProductoCategorias",
                 columns: table => new
                 {
-                    ProductCategoriaId = table.Column<int>(nullable: false)
+                    ProductCategoriaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductoId = table.Column<int>(nullable: false),
-                    CategoriaId = table.Column<int>(nullable: true)
+                    ProductoId = table.Column<int>(type: "int", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,8 +194,7 @@ namespace WebServiceStore.Migrations
                         name: "FK_ProductoCategorias_Categoria_CategoriaId",
                         column: x => x.CategoriaId,
                         principalTable: "Categoria",
-                        principalColumn: "CategoriaId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "CategoriaId");
                     table.ForeignKey(
                         name: "FK_ProductoCategorias_Producto_ProductoId",
                         column: x => x.ProductoId,
@@ -206,12 +207,12 @@ namespace WebServiceStore.Migrations
                 name: "DetallePedido",
                 columns: table => new
                 {
-                    DetallePedidoId = table.Column<int>(nullable: false)
+                    DetallePedidoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Price = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    Cantidad = table.Column<int>(nullable: false),
-                    ProductoId = table.Column<int>(nullable: false),
-                    PedidoId = table.Column<int>(nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: false),
+                    PedidoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

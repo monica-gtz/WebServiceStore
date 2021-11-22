@@ -8,6 +8,10 @@ namespace WebServiceStore.Models
 {
     public class DBStoreContext : DbContext
     {
+        public DBStoreContext()
+        {
+        }
+
         public DBStoreContext(DbContextOptions<DBStoreContext> options)
             : base(options)
         {

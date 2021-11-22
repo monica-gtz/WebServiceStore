@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebServiceStore.Models;
 
+#nullable disable
+
 namespace WebServiceStore.Migrations
 {
     [DbContext(typeof(DBStoreContext))]
@@ -15,22 +17,23 @@ namespace WebServiceStore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("WebServiceStore.Models.Carrito", b =>
                 {
                     b.Property<int>("CarritoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarritoId"), 1L, 1);
 
                     b.Property<decimal>("Cantidad")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ClienteId")
-                        .IsRequired()
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductoId")
@@ -49,21 +52,22 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("CategoriaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriaId"), 1L, 1);
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("EstatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("Imagen")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("CategoriaId");
 
@@ -76,23 +80,24 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("ClienteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"), 1L, 1);
 
                     b.Property<string>("Mail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ClienteId");
 
@@ -103,8 +108,9 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("DetallePedidoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetallePedidoId"), 1L, 1);
 
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
@@ -113,10 +119,9 @@ namespace WebServiceStore.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductoId")
-                        .IsRequired()
+                    b.Property<int>("ProductoId")
                         .HasColumnType("int");
 
                     b.HasKey("DetallePedidoId");
@@ -132,21 +137,21 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("DomicilioId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DomicilioId"), 1L, 1);
 
                     b.Property<string>("Calle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Ciudad")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("ClienteId")
-                        .IsRequired()
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<int>("CodigoPostal")
@@ -154,23 +159,23 @@ namespace WebServiceStore.Migrations
 
                     b.Property<string>("Colonia")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Estado")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NumExt")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Pais")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("DomicilioId");
 
@@ -183,13 +188,14 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("EstatusId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstatusId"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("EstatusId");
 
@@ -200,13 +206,14 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("MetodoPagoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MetodoPagoId"), 1L, 1);
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("MetodoPagoId");
 
@@ -217,22 +224,21 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("PedidoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<int?>("ClienteId")
-                        .IsRequired()
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PedidoId"), 1L, 1);
+
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DomicilioId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MetodoPagoId")
-                        .IsRequired()
+                    b.Property<int>("MetodoPagoId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("PedidoId");
 
@@ -249,24 +255,25 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("ProductoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"), 1L, 1);
 
                     b.Property<int>("EstatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("Imagen")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ProductoId");
 
@@ -279,8 +286,9 @@ namespace WebServiceStore.Migrations
                 {
                     b.Property<int>("ProductCategoriaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductCategoriaId"), 1L, 1);
 
                     b.Property<int?>("CategoriaId")
                         .HasColumnType("int");
@@ -310,6 +318,10 @@ namespace WebServiceStore.Migrations
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.Categoria", b =>
@@ -319,6 +331,8 @@ namespace WebServiceStore.Migrations
                         .HasForeignKey("EstatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Estatus");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.DetallePedido", b =>
@@ -334,6 +348,10 @@ namespace WebServiceStore.Migrations
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Pedidos");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.Domicilio", b =>
@@ -343,6 +361,8 @@ namespace WebServiceStore.Migrations
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Clientes");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.Pedidos", b =>
@@ -362,6 +382,12 @@ namespace WebServiceStore.Migrations
                         .HasForeignKey("MetodoPagoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Domicilio");
+
+                    b.Navigation("MetodoPago");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.Producto", b =>
@@ -371,6 +397,8 @@ namespace WebServiceStore.Migrations
                         .HasForeignKey("EstatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Estatus");
                 });
 
             modelBuilder.Entity("WebServiceStore.Models.ProductoCategoria", b =>
@@ -384,6 +412,55 @@ namespace WebServiceStore.Migrations
                         .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.Categoria", b =>
+                {
+                    b.Navigation("ProductoCategorias");
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.Cliente", b =>
+                {
+                    b.Navigation("Carritos");
+
+                    b.Navigation("Domicilios");
+
+                    b.Navigation("Pedidos");
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.Domicilio", b =>
+                {
+                    b.Navigation("Pedidos");
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.Estatus", b =>
+                {
+                    b.Navigation("Categorias");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.MetodoPago", b =>
+                {
+                    b.Navigation("Pedidos");
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.Pedidos", b =>
+                {
+                    b.Navigation("DetallePedidos");
+                });
+
+            modelBuilder.Entity("WebServiceStore.Models.Producto", b =>
+                {
+                    b.Navigation("Carrito");
+
+                    b.Navigation("DetallePedidos");
+
+                    b.Navigation("ProductoCategorias");
                 });
 #pragma warning restore 612, 618
         }

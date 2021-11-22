@@ -27,25 +27,35 @@ namespace WebServiceStore.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var c =await _db.Cliente.ToListAsync();
-            return Ok(c);
+            using (_db)
+            {
+                var c = await _db.Cliente.ToListAsync();
+                return Ok(c);
+            }
             
         }
 
         // GET api/<ClientesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var c = _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id);
-            return "Value";
+            using (_db)
+            {                
+                return Ok(await _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id));
+            }
         }
 
         // POST api/<ClientesController>
         [HttpPost]
-        public void Post([FromBody] Cliente newCliente)
+        public async Task<IActionResult> Post([FromBody] Cliente newCliente)
         {
-            var c = _db.Cliente.AddAsync(newCliente);
-            _db.SaveChangesAsync();
+            using (_db)
+            {
+                _db.Cliente.Add(newCliente);
+                await _db.SaveChangesAsync();
+                return Ok(newCliente);
+            }
+            
         }
 
         // PUT api/<ClientesController>/5
