@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,11 +28,19 @@ namespace WebServiceStore.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            using (_db)
+            try
             {
-                var c = await _db.Cliente.ToListAsync();
-                return Ok(c);
+                using (_db)
+                {
+                    var c = await _db.Cliente.ToListAsync();
+                    return Ok(c);
+                }
             }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
             
         }
 
@@ -39,21 +48,37 @@ namespace WebServiceStore.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            using (_db)
-            {                
-                return Ok(await _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id));
+            try
+            {
+                using (_db)
+                {
+                    var c = await _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id);
+                    return Ok(c);
+                }
             }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
         }
 
         // POST api/<ClientesController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Cliente newCliente)
         {
-            using (_db)
+            try
             {
-                _db.Cliente.Add(newCliente);
-                await _db.SaveChangesAsync();
-                return Ok(newCliente);
+                using (_db)
+                {
+                    _db.Cliente.Add(newCliente);
+                    await _db.SaveChangesAsync();
+                    return Ok(newCliente);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
             
         }
@@ -62,35 +87,51 @@ namespace WebServiceStore.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Cliente actualizar)
         {
-            using (_db)
+            try
             {
-                var c = await _db.Cliente.SingleOrDefaultAsync(actualizar => actualizar.ClienteId == id);
-                if (c != null)
+                using (_db)
                 {
-                    c.Nombre = actualizar.Nombre;
-                    c.Telefono = actualizar.Telefono;
-                    c.Mail = actualizar.Mail;
+                    var c = await _db.Cliente.SingleOrDefaultAsync(actualizar => actualizar.ClienteId == id);
+                    if (c != null)
+                    {
+                        c.Nombre = actualizar.Nombre;
+                        c.Telefono = actualizar.Telefono;
+                        c.Mail = actualizar.Mail;
 
-                    await _db.SaveChangesAsync();
-                    
+                        await _db.SaveChangesAsync();
+                        return Ok(c);
+                    }
+                    return NotFound();
                 }
-                return Ok(actualizar);
-            }            
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+                       
         }
 
         // DELETE api/<ClientesController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            using (_db)
+            try
             {
-                var c = await _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id);
-                if( c != null)
+                using (_db)
                 {
-                    _db.Cliente.Remove(c);
-                    await _db.SaveChangesAsync();
+                    var c = await _db.Cliente.SingleOrDefaultAsync(cliente => cliente.ClienteId == id);
+                    if (c != null)
+                    {
+                        _db.Cliente.Remove(c);
+                        await _db.SaveChangesAsync();
+                        return Ok(id);
+                    }
+                    return BadRequest();
                 }
-                return Ok(id);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }
