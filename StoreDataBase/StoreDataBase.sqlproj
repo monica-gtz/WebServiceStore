@@ -61,17 +61,17 @@
     <Folder Include="dbo\Scripts" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Status.sql" />
-    <Build Include="dbo\Tables\ShopCar.sql" />
-    <Build Include="dbo\Tables\Products.sql" />
-    <Build Include="dbo\Tables\Product_Categorie.sql" />
     <Build Include="dbo\Tables\Pedidos.sql" />
-    <Build Include="dbo\Tables\OrderDetails.sql" />
     <Build Include="dbo\Tables\MetodoPago.sql" />
     <Build Include="dbo\Tables\Domicilio.sql" />
-    <Build Include="dbo\Tables\Client.sql" />
-    <Build Include="dbo\Tables\Categories.sql" />
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
     <None Include="dbo\Scripts\Store.sql" />
+    <Build Include="dbo\Tables\ProductoCategorias.sql" />
+    <Build Include="dbo\Tables\Producto.sql" />
+    <Build Include="dbo\Tables\Estatus.sql" />
+    <Build Include="dbo\Tables\DetallePedido.sql" />
+    <Build Include="dbo\Tables\Cliente.sql" />
+    <Build Include="dbo\Tables\Categoria.sql" />
+    <Build Include="dbo\Tables\Carrito.sql" />
   </ItemGroup>
 </Project>
