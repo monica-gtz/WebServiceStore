@@ -74,4 +74,7 @@
     <Build Include="dbo\Tables\Categoria.sql" />
     <Build Include="dbo\Tables\Carrito.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\Scripts\seedData.sql" />
+  </ItemGroup>
 </Project>
