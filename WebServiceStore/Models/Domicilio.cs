@@ -33,6 +33,7 @@ namespace WebServiceStore.Models
         [StringLength(10)]
         public string NumExt { get; set; }
         [Required]
+        public int ClienteId { get; set; }
         [ForeignKey("ClienteId")]
         public virtual Cliente Clientes { get; set; }
 

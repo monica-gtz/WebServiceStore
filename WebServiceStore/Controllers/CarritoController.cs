@@ -72,9 +72,9 @@ namespace WebServiceStore.Controllers
             {
                 using (_db)
                 {
-                    var c = await _db.Carrito.AddAsync(carrito);
+                    _db.Carrito.Add(carrito);
                     await _db.SaveChangesAsync();
-                    return Ok(c);
+                    return Ok(carrito);
                 }
             }
             catch
@@ -96,7 +96,7 @@ namespace WebServiceStore.Controllers
                     {
                         c.Cantidad = carrito.Cantidad;
                         c.ProductoId = carrito.ProductoId;
-                        c.Cliente.ClienteId = carrito.Cliente.ClienteId;
+                        c.ClienteId = carrito.ClienteId;
 
                         await _db.SaveChangesAsync();
                         return Ok(c);
@@ -124,7 +124,7 @@ namespace WebServiceStore.Controllers
                          _db.Carrito.Remove(c);
 
                         await _db.SaveChangesAsync();
-                            return Ok("Borrado");
+                        return Ok("Borrado");
                     }
                     return NotFound();
                 }

@@ -20,6 +20,7 @@ namespace WebServiceStore.Models
         [ForeignKey("ProductoId")]
         public Producto Producto { get; set; }
         [Required]
+        public int ClienteId { get; set; }
         [ForeignKey("ClienteId")]
         public Cliente Cliente { get; set; }
     }

@@ -14,18 +14,17 @@ namespace WebServiceStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriasController : ControllerBase
+    public class MetodoPagosController : ControllerBase
     {
-        private readonly ILogger<CategoriasController> _logger;
+        private readonly ILogger<MetodoPagosController> _logger;
         private readonly DBStoreContext _db;
-        public CategoriasController(ILogger<CategoriasController> logger, DBStoreContext db)
+        public MetodoPagosController(ILogger<MetodoPagosController> logger, DBStoreContext db)
         {
             _logger = logger;
             _db = db;
         }
 
-
-        // GET: api/<CategoriasController>
+        // GET: api/<MetodoPagosController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -33,7 +32,7 @@ namespace WebServiceStore.Controllers
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.ToListAsync();
+                    var c = await _db.MetodoPago.ToListAsync();
                     return Ok(c);
                 }
             }
@@ -43,7 +42,7 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // GET api/<CategoriasController>/5
+        // GET api/<MetodoPagosController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -51,8 +50,8 @@ namespace WebServiceStore.Controllers
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.SingleOrDefaultAsync(categoria => categoria.CategoriaId == id);
-                    if(c != null)
+                    var c = await _db.MetodoPago.SingleOrDefaultAsync(pago => pago.MetodoPagoId == id);
+                    if (c != null)
                     {
                         return Ok(c);
                     }
@@ -65,17 +64,17 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // POST api/<CategoriasController>
+        // POST api/<MetodoPagosController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Categoria categoria)
+        public async Task<IActionResult> Post([FromBody] MetodoPago pago)
         {
             try
             {
                 using (_db)
                 {
-                    _db.Categoria.Add(categoria);
+                    _db.MetodoPago.Add(pago);
                     await _db.SaveChangesAsync();
-                    return Ok(categoria);
+                    return Ok(pago);
                 }
             }
             catch
@@ -84,26 +83,22 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // PUT api/<CategoriasController>/5
+        // PUT api/<MetodoPagosController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Categoria update)
+        public async Task<IActionResult> Put(int id, [FromBody] MetodoPago pago)
         {
             try
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.SingleOrDefaultAsync(update => update.CategoriaId == id);
-                    if(c != null)
+                    var c = await _db.MetodoPago.SingleOrDefaultAsync(pago => pago.MetodoPagoId == id);
+                    if (c != null)
                     {
-                        c.Descripcion = update.Descripcion;
-                        c.Imagen = update.Imagen;
-                        c.EstatusId = update.EstatusId;
-
+                        c.Descripcion = pago.Descripcion;
                         await _db.SaveChangesAsync();
                         return Ok(c);
                     }
                     return NotFound();
-
                 }
             }
             catch
@@ -112,7 +107,7 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // DELETE api/<CategoriasController>/5
+        // DELETE api/<MetodoPagosController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -120,12 +115,12 @@ namespace WebServiceStore.Controllers
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.SingleOrDefaultAsync(categoria => categoria.CategoriaId == id);
-                    if(c != null)
+                    var c = await _db.MetodoPago.SingleOrDefaultAsync(pago => pago.MetodoPagoId == id);
+                    if (c != null)
                     {
-                        _db.Categoria.Remove(c);
+                        _db.Remove(c);
                         await _db.SaveChangesAsync();
-                        return Ok("BORRADO");
+                        return Ok(c);
                     }
                     return NotFound();
                 }

@@ -14,18 +14,17 @@ namespace WebServiceStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriasController : ControllerBase
+    public class PedidosController : ControllerBase
     {
-        private readonly ILogger<CategoriasController> _logger;
+        private readonly ILogger<PedidosController> _logger;
         private readonly DBStoreContext _db;
-        public CategoriasController(ILogger<CategoriasController> logger, DBStoreContext db)
+        public PedidosController(ILogger<PedidosController> logger, DBStoreContext db)
         {
             _logger = logger;
             _db = db;
         }
 
-
-        // GET: api/<CategoriasController>
+        // GET: api/<PedidosController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -33,7 +32,7 @@ namespace WebServiceStore.Controllers
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.ToListAsync();
+                    var c = await _db.Pedidos.ToListAsync();
                     return Ok(c);
                 }
             }
@@ -43,7 +42,7 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // GET api/<CategoriasController>/5
+        // GET api/<PedidosController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -51,8 +50,8 @@ namespace WebServiceStore.Controllers
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.SingleOrDefaultAsync(categoria => categoria.CategoriaId == id);
-                    if(c != null)
+                    var c = await _db.Pedidos.SingleOrDefaultAsync(pedido => pedido.PedidoId == id);
+                    if (c != null)
                     {
                         return Ok(c);
                     }
@@ -65,17 +64,17 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // POST api/<CategoriasController>
+        // POST api/<PedidosController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Categoria categoria)
+        public async Task<IActionResult> Post([FromBody] Pedidos pedido)
         {
             try
             {
                 using (_db)
                 {
-                    _db.Categoria.Add(categoria);
+                    _db.Pedidos.Add(pedido);
                     await _db.SaveChangesAsync();
-                    return Ok(categoria);
+                    return Ok(pedido);
                 }
             }
             catch
@@ -84,26 +83,26 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // PUT api/<CategoriasController>/5
+        // PUT api/<PedidosController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Categoria update)
+        public async Task<IActionResult> Put(int id, [FromBody] Pedidos pedido)
         {
             try
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.SingleOrDefaultAsync(update => update.CategoriaId == id);
-                    if(c != null)
+                    var c = await _db.Pedidos.SingleOrDefaultAsync(pedido => pedido.PedidoId == id);
+                    if (c != null)
                     {
-                        c.Descripcion = update.Descripcion;
-                        c.Imagen = update.Imagen;
-                        c.EstatusId = update.EstatusId;
+                        c.Total = pedido.Total;
+                        c.ClienteId = pedido.ClienteId;
+                        c.MetodoPagoId = pedido.MetodoPagoId;
+                        c.DomicilioId = pedido.DomicilioId;
 
                         await _db.SaveChangesAsync();
-                        return Ok(c);
+                        return Ok(pedido);
                     }
                     return NotFound();
-
                 }
             }
             catch
@@ -112,7 +111,7 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // DELETE api/<CategoriasController>/5
+        // DELETE api/<PedidosController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -120,12 +119,12 @@ namespace WebServiceStore.Controllers
             {
                 using (_db)
                 {
-                    var c = await _db.Categoria.SingleOrDefaultAsync(categoria => categoria.CategoriaId == id);
-                    if(c != null)
+                    var c = await _db.Pedidos.SingleOrDefaultAsync(pedido => pedido.PedidoId == id);
+                    if (c != null)
                     {
-                        _db.Categoria.Remove(c);
+                        _db.Remove(c);
                         await _db.SaveChangesAsync();
-                        return Ok("BORRADO");
+                        return Ok(c);
                     }
                     return NotFound();
                 }
