@@ -32,7 +32,14 @@ namespace WebServiceStore
             services.AddDbContext<DBStoreContext>(options =>
                 options.UseSqlServer(c.Value));
 
-            services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);            
+            services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddCors(o => o.AddPolicy("AddCorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +51,8 @@ namespace WebServiceStore
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AddCorsPolicy");
 
             app.UseRouting();
 

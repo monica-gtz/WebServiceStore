@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebServiceStore.Models;
@@ -18,10 +20,12 @@ namespace WebServiceStore.Controllers
     {
         private readonly ILogger<ProductosController> _logger;
         private readonly DBStoreContext _db;
-        public ProductosController(ILogger<ProductosController> logger, DBStoreContext db)
+        private readonly IWebHostEnvironment _host;
+        public ProductosController(ILogger<ProductosController> logger, DBStoreContext db, IWebHostEnvironment host)
         {
             _logger = logger;
             _db = db;
+            _host = host;
         }
 
         // GET: api/<ProductosController>
@@ -132,6 +136,43 @@ namespace WebServiceStore.Controllers
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost("image")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> SubirArchivo()
+        {
+            if (Request.Form.Files.Any())
+            {
+                var file = Request.Form.Files[0];
+                if(file == null)
+                {
+                    return BadRequest("No file found");
+                }
+                var filename = Guid.NewGuid() + ".jpg";
+
+                try
+                {
+                    _logger.LogInformation("Uploading product image");
+                    var filePath = Path.Combine(_host.WebRootPath, "Images", filename);
+                    Console.WriteLine(Directory.CreateDirectory(Path.GetDirectoryName(filePath)));
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                    if (file.Length > 0)
+                    {
+                        await using var stream = new FileStream(filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    return BadRequest(new { ex.Message, ex.StackTrace });
+                }
+                return Ok(new Producto() { Imagen = @"/images/" + filename });
+            }
+            else
+            {
+                return BadRequest("No file found, Request doesn't contain a file");
             }
         }
     }
