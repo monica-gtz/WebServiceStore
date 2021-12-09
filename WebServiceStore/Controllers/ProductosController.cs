@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebServiceStore.Models;
+using WebServiceStore.ViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -77,6 +78,7 @@ namespace WebServiceStore.Controllers
                 using (_db)
                 {
                     _db.Producto.Add(newProduct);
+
                     await _db.SaveChangesAsync();
                     return Ok(newProduct);
                 }
@@ -86,6 +88,65 @@ namespace WebServiceStore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        // POST api/<ProductosController>
+        [HttpGet("GetAddProductNew")]
+        public async Task<IActionResult> GetAddProductView()
+        {
+            var result = new AddProductView();
+            try
+            {
+                //Regresar add product view estatus y categoria 
+                using (_db)
+                {
+                   result.ListaCategoria = await _db.Categoria.ToListAsync();
+                    result.ListaEstatus = await _db.Estatus.ToListAsync();
+                    
+                    return Ok(result);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        // POST api/<ProductosController>
+        [HttpPost("addProductNew")]
+        public async Task<IActionResult> AddNewProduct([FromBody] AddProductView newProduct)
+        {
+            try
+            {
+                var p = new Producto();
+                p.Nombre = newProduct.Nombre;
+                p.Precio = newProduct.Precio;
+                p.Imagen = newProduct.Imagen;
+                p.EstatusId = newProduct.EstatusSelected.EstatusId;
+
+                var pc = new ProductoCategoria();
+                pc.CategoriaId = newProduct.CategoriaSelected.CategoriaId;
+              
+
+                using (_db)
+                {
+                    _db.Producto.Add(p);
+                    
+                    await _db.SaveChangesAsync();
+
+                    pc.ProductoId = p.ProductoId;
+                    _db.ProductoCategorias.Add(pc);
+                    _db.SaveChanges();
+                    newProduct.ProductoId = p.ProductoId;
+                    return Ok(newProduct);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
 
         // PUT api/<ProductosController>/5
         [HttpPut("{id}")]
