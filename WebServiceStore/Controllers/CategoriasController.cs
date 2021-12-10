@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebServiceStore.Models;
+using WebServiceStore.ViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -83,6 +84,52 @@ namespace WebServiceStore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet("GetAddCategorie")]
+        public async Task<IActionResult> GetAddCategorieView()
+        {
+            var result = new AddCategorieView();
+            try
+            {
+                //Regresar add categorie view estatus
+                using (_db)
+                {
+                    result.ListaEstatus = await _db.Estatus.ToListAsync();
+
+                    return Ok(result);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        // POST api/<CategoriasController>
+        [HttpPost("addCategorieNew")]
+        public async Task<IActionResult> AddNewCategorie([FromBody] AddCategorieView newCategorie)
+        {
+            try
+            {
+                var cat = new Categoria();
+                cat.Descripcion = newCategorie.Descripcion;
+                cat.Imagen = newCategorie.Imagen;
+                
+                cat.EstatusId = newCategorie.EstatusSelected.EstatusId;
+                using (_db)
+                {
+                    _db.Categoria.Add(cat);
+
+                    await _db.SaveChangesAsync();
+                    return Ok(newCategorie);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
 
         // PUT api/<CategoriasController>/5
         [HttpPut("{id}")]
