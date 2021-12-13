@@ -229,7 +229,7 @@ namespace WebServiceStore.Controllers
                 {
                     return BadRequest(new { ex.Message, ex.StackTrace });
                 }
-                return Ok(new Producto() { Imagen = @"/images/" + filename });
+                return Ok(new AddProductView() { Imagen = @"/images/" + filename });
             }
             else
             {
