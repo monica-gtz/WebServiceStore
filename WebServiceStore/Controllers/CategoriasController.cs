@@ -105,32 +105,6 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        // POST api/<CategoriasController>
-        [HttpPost("addCategorieNew")]
-        public async Task<IActionResult> AddNewCategorie([FromBody] AddCategorieView newCategorie)
-        {
-            try
-            {
-                var cat = new Categoria();
-                cat.Descripcion = newCategorie.Descripcion;
-                cat.Imagen = newCategorie.Imagen;
-                
-                cat.EstatusId = newCategorie.EstatusSelected.EstatusId;
-                using (_db)
-                {
-                    _db.Categoria.Add(cat);
-
-                    await _db.SaveChangesAsync();
-                    return Ok(newCategorie);
-                }
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-
         // PUT api/<CategoriasController>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Categoria update)
@@ -182,5 +156,32 @@ namespace WebServiceStore.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        //APIS CON VIEW MODEL
+
+        // POST api/<CategoriasController>
+        [HttpPost("addCategorieNew")]
+        public async Task<IActionResult> AddNewCategorie([FromBody] AddCategorieView newCategorie)
+        {
+            try
+            {
+                var cat = new Categoria();
+                cat.Descripcion = newCategorie.Descripcion;
+                cat.Imagen = newCategorie.Imagen;
+
+                cat.EstatusId = newCategorie.EstatusSelected.EstatusId;
+                using (_db)
+                {
+                    _db.Categoria.Add(cat);
+
+                    await _db.SaveChangesAsync();
+                    return Ok(newCategorie);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        } 
     }
 }

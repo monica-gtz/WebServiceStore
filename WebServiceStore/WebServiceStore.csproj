@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\CarritoController.cs" />
+    <Compile Remove="Controllers\CategoriasController.cs" />
+    <Compile Remove="Controllers\ClientesController.cs" />
+    <Compile Remove="Controllers\DetallePedidosController.cs" />
+    <Compile Remove="Controllers\DomiciliosController.cs" />
+    <Compile Remove="Controllers\EstatusController.cs" />
+    <Compile Remove="Controllers\MetodoPagosController.cs" />
+    <Compile Remove="Controllers\PedidosController.cs" />
+    <Compile Remove="Controllers\ProductoCategoriasController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Service\" />
   </ItemGroup>
 
@@ -15,6 +27,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
 

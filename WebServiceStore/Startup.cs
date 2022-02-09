@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services;
 using WebServiceStore.Models;
 
 namespace WebServiceStore
@@ -29,8 +31,11 @@ namespace WebServiceStore
         {
             var c = Configuration.
                     GetSection("ConnectionStrings:DefaultConnection");
-            services.AddDbContext<DBStoreContext>(options =>
-                options.UseSqlServer(c.Value));
+            services.AddScoped<IDataAccess>(x => ActivatorUtilities.
+               CreateInstance<DataAccessStored>(x, c.Value));
+            services.AddTransient<IServices<Producto>, ProductoServices>();          
+
+            
 
             services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
