@@ -65,25 +65,26 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        //// POST api/<ProductosController>
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] Producto newProduct)
-        //{
-        //    try
-        //    {
-        //        using (_db)
-        //        {
-        //            _db.Producto.Add(newProduct);
+        // POST api/<ProductosController>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Producto newProducto)
+        {
+            var newProduct = new Producto();
+            try
+            {
+                newProduct = await _db.AddAsync(newProducto);
 
-        //            await _db.SaveChangesAsync();
-        //            return Ok(newProduct);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
+                if (newProduct.ProductoId > 0)
+                    return Ok(newProduct);
+                else 
+                    return BadRequest("No se pudo insertar, revise info");
+                
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
 
         //// PUT api/<ProductosController>/5
@@ -114,29 +115,27 @@ namespace WebServiceStore.Controllers
         //    }
         //}
 
-        //// DELETE api/<ProductosController>/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    try
-        //    {
-        //        using (_db)
-        //        {
-        //            var c = await _db.Producto.SingleOrDefaultAsync(producto => producto.ProductoId == id);
-        //            if(c != null)
-        //            {
-        //                _db.Producto.Remove(c);
-        //                await _db.SaveChangesAsync();
-        //                return Ok("Borrado");
-        //            }
-        //            return NotFound();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
+        //DELETE api/<ProductosController>/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                             
+                var c = await _db.DeleteAsync(new Producto() { ProductoId = id });
+                if (c != null)
+                {
+                    _db.Producto.Remove(c);
+                    await _db.SaveChangesAsync();
+                    return Ok("Borrado");
+                }
+                    return NotFound();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
         //[HttpPost("image")]
         //[DisableRequestSizeLimit]

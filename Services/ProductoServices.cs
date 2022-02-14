@@ -19,15 +19,7 @@ namespace Services
             _data = data;
         }
 
-        public Task<Producto> AddAsync(Producto entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Producto> DeleteAsync(Producto entity)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task<List<Producto>> GetAllAsync()
         {
@@ -39,8 +31,10 @@ namespace Services
 
         public async Task<Producto> GetById(Producto productoId)
         {
-            var producto = new List<SqlParameter>();
-           var data = await _data.ExecuteProcedureAsync("SP_GetProductById", producto);
+            var parameters = new List<SqlParameter>();
+            var p = new SqlParameter("@ProductoId", productoId.ProductoId);
+            parameters.Add(p);
+            var data = await _data.ExecuteProcedureAsync("SP_GetProductById", parameters);
             //throw new NotImplementedException();
             return Map(data)[0];
         }
@@ -65,11 +59,59 @@ namespace Services
             }
             return resultados;
         }
-
         
+        public async Task<Producto> AddAsync(Producto newProducto)
+        {
+            var newProduct = new Producto();
+            var parameters = new List<SqlParameter>();
+            var p = new SqlParameter("@Nombre", newProducto.Nombre);
+            parameters.Add(p);
+            p = new SqlParameter("@Precio", newProducto.Precio);
+            parameters.Add(p);
+            p = new SqlParameter("@Imagen", newProducto.Imagen);
+            parameters.Add(p);
+            p = new SqlParameter("@EstatusId", newProducto.EstatusId);
+            parameters.Add(p);
+
+            var data = await _data.ExecuteProcedureAsync("SP_AddProduct", parameters);
+            //throw new NotImplementedException();
+
+            if (data.Tables.Count > 0 && data.Tables[0].Rows.Count > 0)
+            {
+                //Si to do sale correctamente se pone el 1 como resultado
+                DataRow registro = data.Tables[0].Rows[0];
+                var resultado = int.Parse(registro["ProductoId"].ToString());
+                newProduct = await this.GetById(new Producto() { ProductoId = resultado }); 
+            }
+
+            return newProduct;
+  
+        }
+
+
         public Task<Producto> UpdateAsync(Producto entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Producto> DeleteAsync(int productoId)
+        {
+            var newProduct = new Producto();
+            var parameters = new List<SqlParameter>();
+            var p = new SqlParameter("@ProductoId", productoId);
+            parameters.Add(p);
+
+            var data = await _data.ExecuteProcedureAsync("SP_DeleteProduct", parameters);
+
+            if (data.Tables.Count > 0 && data.Tables[0].Rows.Count > 0)
+            {
+                //Si to do sale correctamente se pone el 1 como resultado
+                DataRow registro = data.Tables[0].Rows[0];
+                var resultado = int.Parse(registro["Result"].ToString());
+                newProduct = await this.GetById(new Producto() { ProductoId = resultado });
+            }
+            return newProduct;
+            //throw new NotImplementedException();
         }
     }
 }
