@@ -88,32 +88,28 @@ namespace WebServiceStore.Controllers
 
 
         //// PUT api/<ProductosController>/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Put(int id, [FromBody] Producto update)
-        //{
-        //    try
-        //    {
-        //        using (_db)
-        //        {
-        //            var c = await _db.Producto.SingleOrDefaultAsync(update => update.ProductoId == id);
-        //            if(c != null)
-        //            {
-        //                c.Nombre = update.Nombre;
-        //                c.Precio = update.Precio;
-        //                c.Imagen = update.Imagen;
-        //                c.EstatusId = update.EstatusId;
-
-        //                await _db.SaveChangesAsync();
-        //                return Ok(c);
-        //            }
-        //            return NotFound();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] Producto updateProduct)
+        {
+            try
+            {
+                var existProduct = await _db.GetById(new Producto() { ProductoId = id });
+                if (existProduct != null)
+                {
+                    updateProduct.ProductoId = existProduct.ProductoId;
+                    var update = await _db.UpdateAsync(updateProduct);
+                    return Ok(updateProduct);
+                }
+                else
+                {
+                    return BadRequest("No se pudo editar, revise info");
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
         //DELETE api/<ProductosController>/5
         [HttpDelete("{id}")]
@@ -121,15 +117,19 @@ namespace WebServiceStore.Controllers
         {
             try
             {
-                             
-                var c = await _db.DeleteAsync(new Producto() { ProductoId = id });
-                if (c != null)
+                var existProduct = await _db.GetById(new Producto() { ProductoId = id });
+                if (existProduct != null)
                 {
-                    _db.Producto.Remove(c);
-                    await _db.SaveChangesAsync();
-                    return Ok("Borrado");
+                    var deleted =  await _db.DeleteAsync(existProduct);
+                    return Ok("Borrado!!");
                 }
-                    return NotFound();
+                else
+                {
+                    return BadRequest("No se pudo eliminar, revise info");
+                }
+
+                return NotFound();
+               
             }
             catch
             {

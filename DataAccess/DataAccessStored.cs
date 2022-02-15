@@ -27,6 +27,7 @@ namespace DataAccess
                         {
                             using (SqlCommand cmd = innerConnection.CreateCommand())
                             {
+                                cmd.Parameters.Clear();
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddRange(parametros.ToArray());
                                 cmd.CommandText = storedProcedure;
