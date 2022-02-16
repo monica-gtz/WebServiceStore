@@ -13,19 +13,20 @@ namespace WebServiceStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EstatusController : ControllerBase
+    public class CategoriaController : ControllerBase
     {
-        private readonly ILogger<EstatusController> _logger;
+        private readonly ILogger<CategoriaController> _logger;
         //private readonly ProductoServices _db;
-        public IServices<Estatus> _db;
+        public IServices<Categoria> _db;
         private readonly IWebHostEnvironment _host;
-        public EstatusController(ILogger<EstatusController> logger, IServices<Estatus> db, IWebHostEnvironment host)
+        public CategoriaController(ILogger<CategoriaController> logger, IServices<Categoria> db, IWebHostEnvironment host)
         {
             _logger = logger;
             _db = db;
             _host = host;
         }
 
+        // GET: api/<ProductosController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -40,32 +41,12 @@ namespace WebServiceStore.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Estatus newEstatus)
-        {
-            var estatus = new Estatus();
-            try
-            {
-                estatus = await _db.AddAsync(newEstatus);
-
-                if (estatus.EstatusId > 0)
-                    return Ok(estatus);
-                else
-                    return BadRequest("No se pudo insertar, revise info");
-
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var c = await _db.GetById(new Estatus() { EstatusId = id });
+                var c = await _db.GetById(new Categoria() { CategoriaId = id });
                 if (c != null)
                 {
                     return Ok(c);
@@ -78,17 +59,38 @@ namespace WebServiceStore.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Categoria newCategoria)
+        {
+            var categoria = new Categoria();
+            try
+            {
+                categoria = await _db.AddAsync(newCategoria);
+
+                if (categoria.CategoriaId > 0)
+                    return Ok(categoria);
+                else
+                    return BadRequest("No se pudo insertar, revise info");
+
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Estatus updateEstatus)
+        public async Task<IActionResult> Put(int id, [FromBody] Categoria updateCategory)
         {
             try
             {
-                var existEstatus = await _db.GetById(new Estatus() { EstatusId = id });
-                if (existEstatus != null)
+                var existCategory = await _db.GetById(new Categoria() { CategoriaId = id });
+                if (existCategory != null)
                 {
-                    updateEstatus.EstatusId = existEstatus.EstatusId;
-                    var update = await _db.UpdateAsync(updateEstatus);
-                    return Ok(updateEstatus);
+                    updateCategory.CategoriaId = existCategory.CategoriaId;
+                    var update = await _db.UpdateAsync(updateCategory);
+                    return Ok(updateCategory);
                 }
                 else
                 {
@@ -101,15 +103,17 @@ namespace WebServiceStore.Controllers
             }
         }
 
+
+       
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var existEstatus = await _db.GetById(new Estatus() { EstatusId = id });
-                if (existEstatus != null)
+                var existCategory = await _db.GetById(new Categoria() { CategoriaId = id });
+                if (existCategory != null)
                 {
-                    var deleted = await _db.DeleteAsync(existEstatus);
+                    var deleted = await _db.DeleteAsync(existCategory);
                     return Ok("Borrado!!");
                 }
                 else

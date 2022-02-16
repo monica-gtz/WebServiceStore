@@ -33,9 +33,11 @@ namespace WebServiceStore
                     GetSection("ConnectionStrings:DefaultConnection");
             services.AddScoped<IDataAccess>(x => ActivatorUtilities.
                CreateInstance<DataAccessStored>(x, c.Value));
-            services.AddTransient<IServices<Producto>, ProductoServices>();          
 
-            
+            services.AddTransient<IServices<Producto>, ProductoServices>();
+            services.AddTransient<IServices<Categoria>, CategoriaServices>();
+            services.AddTransient<IServices<Estatus>, EstatusServices>();
+
 
             services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
